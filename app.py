@@ -1,19 +1,28 @@
 # Bring in deps
 import os
-from apikey import apikey
 import streamlit as st
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
 import streamlit.components.v1 as components
-import re
 
-os.environ['OPENAI_API_KEY'] = apikey
 
 # App framework
 st.set_page_config(layout="wide")
 st.title('💭Activity Recommendation App')
+
+# Section for API Key Input
+st.subheader('Enter Your API Key')
+api_key = st.text_input('API Key', type='password')
+
+# Check if the API key is entered to proceed
+if api_key:
+    st.success('API Key entered successfully.')
+    os.environ['OPENAI_API_KEY'] = api_key
+else:
+    st.warning('Please enter your API Key to proceed.')
+    
 prompt = st.text_input('Enter your activity preferences for today:')
 
 if st.button('Get Recommendations'):
